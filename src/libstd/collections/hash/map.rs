@@ -1145,8 +1145,22 @@ impl<K, V, S> HashMap<K, V, S>
         where K: Borrow<Q>,
               Q: Hash + Eq
     {
-        self.search(k).into_occupied_bucket().is_some()
+            self.search(k).into_occupied_bucket().is_some()
     }
+
+    /// Returns true if the map contains a value for the specified key.
+    #[unstable(feature = "unknown", issue = "954746")]
+    pub fn contains_key_check<Q: ?Sized>(&self, k: &Q) -> bool
+        where K: Borrow<Q>,
+              Q: Hash + Eq
+    {
+        if !self.is_empty() {
+            self.search(k).into_occupied_bucket().is_some()
+        } else {
+            false
+        }
+    }
+
 
     /// Returns a mutable reference to the value corresponding to the key.
     ///

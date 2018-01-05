@@ -88,6 +88,109 @@ fn find_nonexisting(b: &mut Bencher) {
 }
 
 #[bench]
+fn find_existing_string(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(format!("item {}", i.to_string()), i);
+    }
+
+    b.iter(|| {
+        for i in 1..1001 {
+            m.contains_key(&format!("item {}", i.to_string()));
+        }
+    });
+}
+
+#[bench]
+fn find_nonexisting_string(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(format!("item {}", i.to_string()), i);
+    }
+
+    b.iter(|| {
+        for i in 1001..2001 {
+            m.contains_key(&format!("item {}", i.to_string()));
+        }
+    });
+}
+
+#[bench]
+fn find_existing_check(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(i, i);
+    }
+
+    b.iter(|| {
+        for i in 1..1001 {
+            m.contains_key_check(&i);
+        }
+    });
+}
+
+#[bench]
+fn find_nonexisting_check(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(i, i);
+    }
+
+    b.iter(|| {
+        for i in 1001..2001 {
+            m.contains_key_check(&i);
+        }
+    });
+}
+
+#[bench]
+fn find_existing_string_check(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(format!("item {}", i.to_string()), i);
+    }
+
+    b.iter(|| {
+        for i in 1..1001 {
+            m.contains_key_check(&format!("item {}", i.to_string()));
+        }
+    });
+}
+
+#[bench]
+fn find_nonexisting_string_check(b: &mut Bencher) {
+    use super::map::HashMap;
+
+    let mut m = HashMap::new();
+
+    for i in 1..1001 {
+        m.insert(format!("item {}", i.to_string()), i);
+    }
+
+    b.iter(|| {
+        for i in 1001..2001 {
+            m.contains_key_check(&format!("item {}", i.to_string()));
+        }
+    });
+}
+
+
+#[bench]
 fn hashmap_as_queue(b: &mut Bencher) {
     use super::map::HashMap;
 
